@@ -1,0 +1,81 @@
+---
+title: "map"
+author: "Xiaoxiao Guo"
+date: "2/14/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Map
+```{r geo_codes, message=F}
+library(ggmap)
+library(dplyr)
+hospital.geo=
+  hospital[1:2500, ]%>%
+  select(Address, City, State)%>%
+  mutate(ADDRESS_Ext=paste(Address, City, State, sep=","))%>%
+  mutate_geocode(ADDRESS_Ext)
+
+hospital.geo$Name <- hospital$Hospital.Name[1:2500]
+hospital.geo <- na.omit(hospital.geo)
+save(hospital.geo, file="~/Desktop/ads_proj2/Project2/Output/hospital_geo.RData")
+
+sum(is.na(hospital.geo$lon))
+sum(is.na(hospital.geo$lat))
+```
+
+```{r geo_codes, message=F}
+library(ggmap)
+library(dplyr)
+hospital.geo.1=
+  hospital[2501:nrow(hospital), ]%>%
+  select(Hospital.Name, Address, City, State)%>%
+  mutate(ADDRESS_Ext=paste(Hospital.Name, Address, City, State, sep=","))%>%
+  mutate_geocode(ADDRESS_Ext)
+
+
+hospital.geo.1 <- na.omit(hospital.geo.1)
+save(hospital.geo.1, file="~/Desktop/ads_proj2/Project2/Output/hospital_geo1.RData")
+
+```
+
+```{r}
+hospital.geo <- hospital.geo[, c(7, 1:6)]
+hospital.geo <- hospital.geo[, c(2:7, 1)]
+hospital.geo.1$Name <- hospital.geo.1$Hospital.Name 
+hospital.geo.1 <- hospital.geo.1[, c(8, 2:7)]
+hospital.geot <- rbind(hospital.geo, hospital.geo.1)
+
+save(hospital.geot, file="~/Desktop/ads_proj2/Project2/Output/hospital_geot.RData")
+```
+
+```{r}
+library(leaflet)
+m <- leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(hospital.geot$lon, hospital.geot$lat, popup=hospital.geot$Name)
+m # Print the map
+```
+
+```{r}
+hos <- merge(x = hospital, y = hospital.geot, by.x = c("Hospital.Name", "Address"), by.y = c("Name", "Address"), all.y = TRUE)
+hos <- hos[, c(-20, -21)]
+
+colnames(hos) <- c("Name","Address","City","State","ZIP.Code",  
+                   "County.Name","Phone.Number","Type",  
+                   "Hospital.Ownership","Emergency Services",  
+                   "Overall Rating","Mortality.national.comparison",  
+                   "Safety.of.care.national.comparison",  
+                   "Readmission.national.comparison",  
+                   "Patient.experience.national.comparison",  
+                   "Effectiveness.of.care.national.comparison" ,  
+                   "Timeliness.of.care.national.comparison",  
+                   "Efficient.use.of.medical.imaging.national.comparison",  
+                   "payment","ADDRESS_Ext","lon","lat")                    
+
+save(hos, file="~/Desktop/ads_proj2/Project2/Output/hos.RData")
+```
+
