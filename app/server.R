@@ -55,6 +55,7 @@ payswitch <- function(payment){
 shinyServer(function(input, output) {
   
   # Read in the dataset
+  load("../data/Hospital.RData")
   data <- hospital
   
   state <- reactive({input$state})
