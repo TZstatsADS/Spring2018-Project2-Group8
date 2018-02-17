@@ -26,7 +26,7 @@ library(mapproj)
 
 shinyServer(function(input, output){
   #read data
-  load("../data/hos.RData")
+  load("~/Desktop/ads_proj2/Project2/Output/hos.RData")
   #subset data depending on user input in Shiny app
   
     state<-reactive({
