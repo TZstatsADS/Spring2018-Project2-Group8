@@ -40,7 +40,7 @@ shinyServer(function(input, output){
       } 
       else {
         selectstate<-state()
-        v1<- hos %>% filter(State.x == state())}})  
+        v1<- hos %>% filter(State == state())}})  
     
     output$tablerank = renderDataTable(
       {
