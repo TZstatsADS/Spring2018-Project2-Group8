@@ -4,9 +4,19 @@ title: "R Notebook"
 # Data Cleaning
 ## Process raw data
 ```{r}
+library(dplyr)
+
 # Read the raw dataset
-hospital <- read.csv("~/Desktop/ADS_Proj2/Project2/Output/Hospital General Information.csv")
+hospital <- read.csv("../data/Hospital General Information.csv")
 hospital$Phone.Number <- as.character(hospital$Phone.Number)
+
+Mortality <- hospital$Mortality.national.comparison
+Safety <- hospital$Safety.of.care.national.comparison
+Readmission <- hospital$Readmission.national.comparison
+PatientExp <- hospital$Patient.experience.national.comparison
+Effectiveness <- hospital$Effectiveness.of.care.national.comparison
+Timeliness <- hospital$Timeliness.of.care.national.comparison
+MedicalImagingEff <- hospital$Efficient.use.of.medical.imaging.national.comparison
 
 # Turn "Not Available" into NA, "Above Average" into 3, "Average" into 2 and "Below Average" into 1.
 levels(hospital$Efficient.use.of.medical.imaging.national.comparison) <- c(3, 1, NA, 2)
@@ -17,14 +27,55 @@ levels(hospital$Readmission.national.comparison) <- c(3, 1, NA, 2)
 levels(hospital$Safety.of.care.national.comparison) <- c(3, 1, NA, 2)
 levels(hospital$Mortality.national.comparison) <- c(3, 1, NA, 2)
 levels(hospital$Hospital.overall.rating) <- c(1, 2, 3, 4, 5, NA)
-
-# Save processed data
-# save(hospital, file="~/Desktop/ADS_Proj2/Processed Data/hospital.RData")
 ```
 
+## Add payment column
+```{r}
+payment <- read.csv("../data/Payment.csv")
 
-## Add longtitude and latitude to dataset
-```{r geo_codes, message=F}
+judge <- payment[,11]
+
+levels(judge) <- c(3,1,2,0,0)
+
+my.fun <- function(vec){
+  vec <- as.numeric(vec)
+  if(all(vec==c(0,0,0,0))){
+    return(NA)
+  }
+  else{
+    n <- 4 - sum(vec==0)
+    return(sum(vec)/n)
+  }
+}
+  
+mat <- matrix(judge,ncol = 4,byrow = TRUE)
+score <- apply(mat, 1, my.fun)
+
+hospital$payment <- score
+```
+
+## Add latitude/longitude and other columns
+```{r}
+# Read in latitude and longitude data processed by Python codes
+latlng <- read.csv("../output/laglng_transform.csv")
+lat <- latlng[,1]
+log <- latlng[,2]
+
+# Bind some columns and factor the type of hospital for subsequent map marker use
+hospital <- cbind(hospital, Mortality, Safety, Readmission, PatientExp, Effectiveness, Timeliness, MedicalImagingEff, lat, log)
+hospital <- mutate(hospital, TF = factor(hospital$Hospital.Type, labels = c("emergency","children","critical")))
+
+save(hospital, file="../output/hospital.RData")
+```
+
+## Delete latitude/longitude NA rows as it cannot be visualized on the map
+```{r}
+hos <- hospital[is.na(hospital$lat) == F & is.na(hospital$log) == F, ]
+save(hos, file="../output/hos.RData")
+```
+
+## Following chunks that are greyed are our preliminary trial on transforming addresses to longtitude and latitude. We found that there are a considerable amount of NAs, therefore we write some python codes to improve this transformation process.
+```{geo_codes, message=F}
 # Transfer address into longtitude and latitude
 # First 2500 data
 
@@ -44,7 +95,7 @@ hospital.geo <- na.omit(hospital.geo)
 save(hospital.geo, file="~/Desktop/ads_proj2/Project2/Output/hospital_geo.RData")
 ```
 
-```{r geo_codes, message=F}
+```{geo_codes, message=F}
 # Transfer address into longtitude and latitude
 # Remaining data
 hospital.geo.1=
@@ -59,7 +110,7 @@ hospital.geo.1 <- na.omit(hospital.geo.1)
 save(hospital.geo.1, file="~/Desktop/ads_proj2/Project2/Output/hospital_geo1.RData")
 ```
 
-```{r}
+```{}
 # Combine all data(first 2500 and last)
 hospital.geo <- hospital.geo[, c(7, 1:6)]
 hospital.geo <- hospital.geo[, c(2:7, 1)]
@@ -71,7 +122,7 @@ hospital.geot <- rbind(hospital.geo, hospital.geo.1)
 save(hospital.geot, file="~/Desktop/ads_proj2/Project2/Output/hospital_geot.RData")
 ```
 
-```{r}
+```{}
 # Merge all the necessary features and processed data into final dataset
 
 # Merge hospital and hospital.geot into hos
