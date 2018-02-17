@@ -19,13 +19,23 @@ library(shinydashboard)
     dashboardHeader(title = "Hospitals For You"),
     skin = "green",
     dashboardSidebar(
+      sidebarMenu(id="tabs",
+                  menuItem("Summary Statistics", tabName = "SummaryStat", icon = icon("area-chart")),
+                  menuItem("Hospital Recommendation", tabName = "HospitalRecommend", icon=icon("table")),
+                  menuItem("About",  icon = icon("file-text-o"),
+                           menuSubItem("Read Me", tabName = "ReadMe", icon = icon("angle-right")),
+                           menuSubItem("About Team", tabName = "AboutTeam", icon = icon("angle-right")))),
+      hr(),
+      
       selectInput("state", label = "State", 
-                choices = c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN",
+                choices = c("Select","AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN",
                             "IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV",
                             "NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN",
-                            "TX","UT","VT","VA","WA","WV","WI","WY"), selected = "AL"),
-      strong("How do you care about these criterion for hospitals?"),
-      
+                            "TX","UT","VT","VA","WA","WV","WI","WY"), selected = "Select"),
+      selectInput("type", label = "Type", 
+                  choices = c("Select","Acute Care Hospitals","Critical Access Hospitals","Childrens"), selected = "Select"),
+      hr(),
+      strong("Please select your preferences: "),
       # Criterion for hospitals
       radioButtons("care1",label = "Mortality",
                    choices = list("Very care"=3,"Care"=2,"Not care"=1),
@@ -55,16 +65,23 @@ library(shinydashboard)
                    choices = list("Very care"=3,"Care"=2,"Not care"=1),
                    selected = 2)
     ),
-    
     dashboardBody(
-      mainPanel(
-        tabsetPanel(
-          tabPanel('Ranking',
-                   dataTableOutput("tablerank"),
-                   tags$style(type="text/css", '#myTable tfoot {display:none;}'))
-          
-        )
+      fluidRow(
+        tabBox(width=12,
+               tabPanel(title="Map",width = 12,solidHeader = T,leafletOutput("map"))
+              ),
+        tabBox(width = 12,
+           
+           tabPanel('MediCare Assessment',
+                    dataTableOutput("tableinfo"),
+                    tags$style(type="text/css", '#myTable tfoot {display:none;}')),
+           tabPanel('Personalized Ranking',
+                    dataTableOutput("tablerank"),
+                    tags$style(type="text/css", '#myTable tfoot {display:none;}')
+                    ))
+    )
+        
       )
     )
-      
-  )
+    
+  
