@@ -68,14 +68,14 @@ shinyServer(function(input, output) {
   care6 <- reactive({input$care6}) # Timeliness of care
   care7 <- reactive({input$care7}) # Efficient use of medical imaging
   
-  v1 <- reactive({v1 <- data[data$State == paste(state()), ]})
+  v2 <- reactive({v2 <- data[data$State == paste(state()), ]})
   
   care.origin <- reactive(care.origin <- c(care1(),care2(),care3(),
                                            care4(),care5(),care6(),care7()))
   
   output$tablerank = renderDataTable({
     # Dataset for the selected state
-    data.state <- v1()
+    data.state <- v2()
     
     # Care vector for 7 criterion
     care.vec <- as.numeric(care.origin())

@@ -20,10 +20,40 @@ library(shinydashboard)
     skin = "green",
     dashboardSidebar(
       selectInput("state", label = "State", 
-                choices = c("None","AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN",
+                choices = c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN",
                             "IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV",
                             "NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN",
-                            "TX","UT","VT","VA","WA","WV","WI","WY"), selected = "None")
+                            "TX","UT","VT","VA","WA","WV","WI","WY"), selected = "AL"),
+      strong("How do you care about these criterion for hospitals?"),
+      
+      # Criterion for hospitals
+      radioButtons("care1",label = "Mortality",
+                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   selected = 2),
+      
+      radioButtons("care2",label = "Safety of Care",
+                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   selected = 2),
+      
+      radioButtons("care3",label = "Readmission rate",
+                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   selected = 2),
+      
+      radioButtons("care4",label = "Patient Experience",
+                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   selected = 2),
+      
+      radioButtons("care5",label = "Effectiveness of Care",
+                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   selected = 2),
+      
+      radioButtons("care6",label = "Timeliness of Care",
+                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   selected = 2),
+      
+      radioButtons("care7",label = "Efficient Use of Medical Imaging",
+                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   selected = 2)
     ),
     dashboardBody(
       fluidRow(
@@ -32,11 +62,11 @@ library(shinydashboard)
               ),
         tabBox(width = 12,
            
-           tabPanel('Ranking',
-                    dataTableOutput("tablerank"),
+           tabPanel('MediCare Assessment',
+                    dataTableOutput("tableinfo"),
                     tags$style(type="text/css", '#myTable tfoot {display:none;}')),
            tabPanel('Personalized Ranking',
-                    dataTableOutput("tablerank2"),
+                    dataTableOutput("tablerank"),
                     tags$style(type="text/css", '#myTable tfoot {display:none;}')
                     ))
     )
