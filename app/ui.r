@@ -1,42 +1,87 @@
+packages.used=c("shiny", "plotly", "shinydashboard", "leaflet")
+
+# check packages that need to be installed.
+packages.needed=setdiff(packages.used, 
+                        intersect(installed.packages()[,1], 
+                                  packages.used))
+# install additional packages
+if(length(packages.needed)>0){
+  install.packages(packages.needed, dependencies = TRUE)
+}
+
+
 library(shiny)
+library(plotly)
 library(leaflet)
+library(shinydashboard)
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
-  
-  # Application title
-  titlePanel("2009 Manhattan Housing Sales"),
-  
-  # Sidebar with a selector input for neighborhood
-  sidebarLayout(
-    sidebarPanel(
-      selectInput("nbhd", label = h5("Choose a Manhattan Neighborhood"), 
-                         choices = list("all neighborhoods"=0,
-                                        "Central Harlem"=1, 
-                                        "Chelsea and Clinton"=2,
-                                        "East Harlem"=3, 
-                                        "Gramercy Park and Murray Hill"=4,
-                                        "Greenwich Village and Soho"=5, 
-                                        "Lower Manhattan"=6,
-                                        "Lower East Side"=7, 
-                                        "Upper East Side"=8, 
-                                        "Upper West Side"=9,
-                                        "Inwood and Washington Heights"=10), 
-                         selected = 0)
-      #sliderInput("p.range", label=h3("Price Range (in thousands of dollars)"),
-      #            min = 0, max = 20000, value = c(200, 10000))
+  dashboardPage(
+    dashboardHeader(title = "Hospitals For You"),
+    skin = "green",
+    dashboardSidebar(
+      sidebarMenu(id="tabs",
+                  menuItem("Summary Statistics", tabName = "SummaryStat", icon = icon("area-chart")),
+                  menuItem("Hospital Recommendation", tabName = "HospitalRecommend", icon=icon("table")),
+                  menuItem("About",  icon = icon("file-text-o"),
+                           menuSubItem("Read Me", tabName = "ReadMe", icon = icon("angle-right")),
+                           menuSubItem("About Team", tabName = "AboutTeam", icon = icon("angle-right")))),
+      hr(),
+      
+      selectInput("state", label = "State", 
+                choices = c("Select","AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN",
+                            "IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV",
+                            "NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN",
+                            "TX","UT","VT","VA","WA","WV","WI","WY"), selected = "Select"),
+      selectInput("type", label = "Type", 
+                  choices = c("Select","Acute Care Hospitals","Critical Access Hospitals","Childrens"), selected = "Select"),
+      hr(),
+      strong("Please select your preferences: "),
+      # Criterion for hospitals
+      radioButtons("care1",label = "Mortality",
+                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   selected = 2),
+      
+      radioButtons("care2",label = "Safety of Care",
+                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   selected = 2),
+      
+      radioButtons("care3",label = "Readmission rate",
+                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   selected = 2),
+      
+      radioButtons("care4",label = "Patient Experience",
+                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   selected = 2),
+      
+      radioButtons("care5",label = "Effectiveness of Care",
+                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   selected = 2),
+      
+      radioButtons("care6",label = "Timeliness of Care",
+                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   selected = 2),
+      
+      radioButtons("care7",label = "Efficient Use of Medical Imaging",
+                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   selected = 2)
     ),
-    # Show two panels
-    mainPanel(
-      #h4(textOutput("text")),
-      h3(code(textOutput("text1"))),
-      tabsetPanel(
-        # Panel 1 has three summary plots of sales. 
-        tabPanel("Sales summary", plotOutput("distPlot")), 
-        # Panel 2 has a map display of sales' distribution
-        tabPanel("Sales map", plotOutput("distPlot1"))),
-      leafletOutput("map", width = "80%", height = "400px")
+    dashboardBody(
+      fluidRow(
+        tabBox(width=12,
+               tabPanel(title="Map",width = 12,solidHeader = T,leafletOutput("map"))
+              ),
+        tabBox(width = 12,
+           
+           tabPanel('MediCare Assessment',
+                    dataTableOutput("tableinfo"),
+                    tags$style(type="text/css", '#myTable tfoot {display:none;}')),
+           tabPanel('Personalized Ranking',
+                    dataTableOutput("tablerank"),
+                    tags$style(type="text/css", '#myTable tfoot {display:none;}')
+                    ))
     )
- )
-))
-
+        
+      )
+    )
+    
+  
