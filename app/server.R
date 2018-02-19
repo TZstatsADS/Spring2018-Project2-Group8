@@ -11,7 +11,6 @@ if(length(packages.needed)>0){
   install.packages(packages.needed, dependencies = TRUE)
 }
 
-
 library(shiny)
 library(leaflet)
 library(scales)
@@ -53,6 +52,13 @@ payswitch <- function(payment){
       else{return("$$$")}}}
 }
 
+# switch overall rating
+
+orswitch <- function(rating){
+  if(is.na(rating)){return("Not Available")}
+  else {return(as.numeric(rating))}
+}
+
 shinyServer(function(input, output){
   #read data
   load("./hos.RData")
@@ -92,7 +98,12 @@ shinyServer(function(input, output){
   output$tableinfo = renderDataTable(
       {
         data1 <- v2()
-        data1[, c(2, 3, 4, 9, 13)]
+        infotable <- data1[, c(2, 3, 4, 9, 13)]
+        infotable$Hospital.overall.rating <- apply(data.frame(as.numeric(data1$Hospital.overall.rating)),
+                                                          1,orswitch)
+        colnames(infotable) <- c("Hospital Name","Address","City","Type",
+                             "Overall Rating")
+        infotable
     },options = list(orderClasses = TRUE, iDisplayLength = 5, lengthMenu = c(5, 10, 15, 20)))
   
   
