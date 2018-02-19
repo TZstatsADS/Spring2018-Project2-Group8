@@ -12,6 +12,7 @@ Part 1: Random Forest and Check the importance of Variables
 library(randomForest)
 library(ggplot2)
 library(rpart)
+load("Hospital.RData")
 set.seed(021818) #Create a random seed
 test.i <- sample(1:nrow(hospital), .3*nrow(hospital), replace=FALSE) #Test set contains 30% of the total data
 test.data <- hospital[test.i,]
