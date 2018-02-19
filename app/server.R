@@ -23,6 +23,9 @@ library(plotly)
 library(data.table)
 library(dtplyr)
 library(mapproj)
+library(randomForest)
+library(ggplot2)
+library(rpart)
 
 # calculate scores for a hospital 
 
