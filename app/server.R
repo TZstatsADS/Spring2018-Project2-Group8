@@ -50,10 +50,9 @@ payswitch <- function(payment){
       else{return("$$$")}}}
 }
 
-
 shinyServer(function(input, output){
   #read data
-  load("../output/hos.RData")
+  load("./hos.RData")
   
   data <- hos
   
