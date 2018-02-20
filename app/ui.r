@@ -16,7 +16,7 @@ library(leaflet)
 library(shinydashboard)
 
   dashboardPage(
-    dashboardHeader(title = "Hospitals For You"),
+    dashboardHeader(title = "Hospital For You"),
     skin = "green",
     dashboardSidebar(
       width = 260,
@@ -40,25 +40,25 @@ library(shinydashboard)
       strong("Please select your preferences: "),
       # Criterion for hospitals
       radioButtons("care1",label = "Mortality",
-                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   choices = list("Very Care"=3,"Care"=2,"Not Care"=1),
                    selected = 2, inline = T),
       radioButtons("care2",label = "Safety of Care",
-                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   choices = list("Very Care"=3,"Care"=2,"Not Care"=1),
                    selected = 2, inline = T),
       radioButtons("care3",label = "Readmission rate",
-                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   choices = list("Very Care"=3,"Care"=2,"Not Care"=1),
                    selected = 2, inline = T),
       radioButtons("care4",label = "Patient Experience",
-                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   choices = list("Very Care"=3,"Care"=2,"Not Care"=1),
                    selected = 2, inline = T),
       radioButtons("care5",label = "Effectiveness of Care",
-                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   choices = list("Very Care"=3,"Care"=2,"Not Care"=1),
                    selected = 2, inline = T),
       radioButtons("care6",label = "Timeliness of Care",
-                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   choices = list("Very Care"=3,"Care"=2,"Not Care"=1),
                    selected = 2, inline = T),
       radioButtons("care7",label = "Efficient Use of Medical Imaging",
-                   choices = list("Very care"=3,"Care"=2,"Not care"=1),
+                   choices = list("Very Care"=3,"Care"=2,"Not Care"=1),
                    selected = 2, inline = T),
       submitButton("Submit",width='100%')
     ),
