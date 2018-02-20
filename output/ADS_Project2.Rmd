@@ -60,14 +60,21 @@ mean(rf.preds == test.data$Hospital.overall.rating, na.rm = TRUE) #The result is
 4.) Determine the importance of each variables into the model
 ```{r}
 importance.df <- as.data.frame(importance(best.rf)) #Convert matrix into a dataframe. Importance is a measure of how much each variable decreases the Gini Index. Gini Index is a splitting criterion and represents the measurement of homogeneity of the data. It is also Index that measures impurity. 
+
+
+row.names(importance.df) <- c("Mortality", "Safety of Care", "Readmission", "Patient Experience", "Effectiveness of Care", "Timeliness of Care", "Efficient Use of Medical Imaging")
+
 importance.df$Variables = row.names(importance.df) #Formatting the data for ggplot purposes
 
+save(importance.df, file="../output/importance.RData")
+save(importance.df, file="../app/importance.RData")
 ggplot(importance.df, aes(x=Variables, y=MeanDecreaseGini)) + 
         geom_point() + 
         theme(axis.text.x = element_text(angle = 70, hjust = 1))+
         ggtitle('Variable Importance')+
         ylab("Mean Drop Gini")+
         theme(plot.title=element_text(hjust=0.5))
+  
 ```
 Why random forest?
 (1) Because it's good at handling missing values.
@@ -79,29 +86,35 @@ Part 2: EDA
 
 1.) Number of hospitals by State
 ```{r}
-df <- data.frame(table(hospital$State))
+df <- data.frame(table(hos$State))
 colnames(df) <- c('State', 'Freq')
+save(df, file="../output/df.RData")
+save(df, file="../app/df.RData")
+
 ggplot(df, aes(x=State, y = Freq))+
   geom_bar(stat="identity", color="black", fill="grey")+
   labs(title= "Number of Hospitals by State\n", x="\nState", y="Frequency\n")+
   theme_classic()+
-  theme(axis.text.x = element_text(angle=90, hjust=1))+
+  theme(axis.text.x = element_text(angle=90, hjust=1, size = 8))+
   theme(plot.title= element_text(hjust=0.5))
 ```
 
 2.) Average quality of Medicare hospitals by State 
 ```{r}
 library(dplyr)
-hospital_ratings.df <- hospital %>%
+hospital_ratings.df <- hos %>%
                       group_by(State) %>%
                       summarise(HospitalRating=mean(as.numeric(Hospital.overall.rating), na.rm=TRUE)) %>%
   data.frame()
+
+save(hospital_ratings.df, file="../output/hospital_ratings.RData")
+save(hospital_ratings.df, file="../app/hospital_ratings.RData")
 
 ggplot(hospital_ratings.df, aes(x=State, y=HospitalRating))+
   geom_bar(stat="identity", color="black", fill="grey")+
   labs(title="Hospital Quality by State\n", x="\nState", y="Quality\nOverallRating (1-5)")+
   theme_classic()+
-  theme(axis.text.x=element_text(angle=90, hjust=1))+
+  theme(axis.text.x=element_text(angle=90, hjust=1, size = 8))+
   theme(plot.title=element_text(hjust=0.5))+
   ylim(0,5)
 
