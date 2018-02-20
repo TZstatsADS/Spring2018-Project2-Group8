@@ -1,6 +1,6 @@
 packages.used=c("dplyr", "plotly", "shiny", "leaflet", "scales", 
                 "lattice", "htmltools", "maps", "data.table", 
-                "dtplyr")
+                "dtplyr", "mapproj", "randomForest", "ggplot2", "rpart")
 
 # check packages that need to be installed.
 packages.needed=setdiff(packages.used, 
@@ -62,6 +62,9 @@ orswitch <- function(rating){
 shinyServer(function(input, output){
   #read data
   load("./hos.RData")
+  load("./importance.RData")
+  load("./df.RData")
+  load("./hospital_ratings.RData")
   
   data <- hos
   
@@ -144,7 +147,7 @@ shinyServer(function(input, output){
     rankedtable
   },options = list(orderClasses = TRUE, iDisplayLength = 5, lengthMenu = c(5, 10, 15, 20)))
   
-  
+
   hospIcons <- iconList(emergency = makeIcon("emergency_icon.png", iconWidth = 25, iconHeight =30),
                         critical = makeIcon("critical_icon.png", iconWidth = 25, iconHeight =30),
                         children = makeIcon("children_icon.png", iconWidth = 20, iconHeight =30))
@@ -185,5 +188,49 @@ shinyServer(function(input, output){
   output$team6<- renderText({"-> Yao, Jingtian (email: jy2867@columbia.edu)"})
   output$team7<- renderText({"We are a group of Columbia University M.A. in Statistics students eager to make the world an easier place to live in, and we are taking a tiny step here by developing this app to help you find the best and most fitted hospitals. Good luck!"})
   
+  
+  output$VI <- renderPlotly({
+    
+    b <- ggplot(importance.df, aes(x=Variables, y=MeanDecreaseGini)) + 
+      geom_point() + 
+      theme(axis.text.x = element_text(angle = 40, hjust = 1))+
+      ggtitle('Variable Importance')+
+      ylab("Mean Drop Gini")+
+      theme(plot.title=element_text(hjust=0.5))
+    ggplotly(b) %>% layout(height = 700, width = 1200)
+    
+  }
+  
+  )
+  
+  output$NHS <- renderPlotly({
+    
+    c <- ggplot(df, aes(x=State, y = Freq))+
+      geom_bar(stat="identity", color="black", fill="grey")+
+      labs(title= "Number of Hospitals by State", x="State", y="Frequency")+
+      theme_classic()+
+      theme(axis.text.x = element_text(angle=90, hjust=1, size = 8))+
+      theme(plot.title= element_text(hjust=0.5))
+    ggplotly(c) %>% layout(height = 700, width = 1200)
+    
+  }
+  
+  )
+  
+  output$HQS <- renderPlotly({
+    
+    d <- ggplot(hospital_ratings.df, aes(x=State, y=HospitalRating))+
+      geom_bar(stat="identity", color="black", fill="grey")+ 
+      labs(title="Hospital Quality by State", x="State", y="Quality - OverallRating (1-5)")+
+      theme_classic()+
+      theme(axis.text.x=element_text(angle=90, hjust=1, size = 8))+
+      theme(plot.title=element_text(hjust=0.5))+
+      ylim(0,5)
+    ggplotly(d) %>% layout(height = 700, width = 1200)
+    
+  }
+  
+  )
+
  })
 

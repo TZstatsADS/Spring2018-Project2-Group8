@@ -70,11 +70,13 @@ library(shinydashboard)
                 )),
         
         tabItem(tabName = "SummaryStat",
-                mainPanel(
-                  img(src = "1.png",height=400,width=1000),
-                  img(src = "2.png",height=400,width=1000),
-                  img(src = "3.png",height=400,width=1000)
-                )),  
+                fluidRow(
+                  tabBox(width=12,
+                         tabPanel(title="Variable Importance",width=12, plotlyOutput("VI", height = 700)),
+                         tabPanel(title="Number of Hospitals by State\n",plotlyOutput("NHS", height = 700)), 
+                         tabPanel(title="Hospital Quality by State\n",width=12,plotlyOutput("HQS", height = 700))
+                         )
+                  )),  
         
         tabItem(tabName = "HospitalRecommend",
         fluidRow(
