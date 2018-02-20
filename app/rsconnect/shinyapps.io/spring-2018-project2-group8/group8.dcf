@@ -5,8 +5,8 @@ account: spring-2018-project2-group8
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 284385
-bundleId: 1229170
+bundleId: 1230838
 url: https://spring-2018-project2-group8.shinyapps.io/group8/
-when: 1518999067.55467
+when: 1519087527.06033
 asMultiple: FALSE
 asStatic: FALSE

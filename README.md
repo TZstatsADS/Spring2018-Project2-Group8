@@ -1,6 +1,6 @@
 # Project 2: Open Data App - an RShiny app development project
 
-## Project Title: Your Health, Our Job!
+## Project Title: Hospital for You
 Term: Spring 2018
 
 ### Team #8

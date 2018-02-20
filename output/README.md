@@ -1,4 +1,4 @@
-# Project: Your Health, Our Job!
+# Project: Hospital for You
 ### Output folder
 
 The output directory contains analysis output, processed datasets, logs, or other processed things.

@@ -93,35 +93,36 @@ shinyServer(function(input, output){
   care.origin <- reactive(care.origin <- c(care1(),care2(),care3(),
                                            care4(),care5(),care6(),care7()))
   
+  # Care vector for 7 criterion
+  care.vec <- reactive(as.numeric(care.origin()))
+  
+  # Scores of hospitals in the selected state
+  score <- reactive(apply(data.frame(v2()),1,calScore,care.vec = care.vec()))
+  
+  # orders for hospitals
+  ord <- reactive(order(score(),decreasing = TRUE))
+  
+  # ranks for hospitals
+  rk <- reactive(floor(frankv(score(),order = -1,ties.method = "min")))
+  
+  v3 <- reactive({v3 <- cbind(v2(),Order = ord(),Rank = rk())})
+  
   # Outputs
     
   output$tableinfo = renderDataTable(
       {
         data1 <- v2()
-        infotable <- data1[, c(2, 3, 4, 9, 13)]
+        infotable <- data1[, c(2, 3, 4, 9, 30, 31, 32, 33, 34, 13)]
         infotable$Hospital.overall.rating <- apply(data.frame(as.numeric(data1$Hospital.overall.rating)),
                                                           1,orswitch)
-        colnames(infotable) <- c("Hospital Name","Address","City","Type",
-                             "Overall Rating")
+       colnames(infotable) <- c("Hospital Name","Address","City","Type", "Mortality", "Safety", "Readmission",
+                                "Patient Experience", "Effectiveness", "Overall Rating")
         infotable
     },options = list(orderClasses = TRUE, iDisplayLength = 5, lengthMenu = c(5, 10, 15, 20)))
   
   
   output$tablerank = renderDataTable({
-    # Dataset for the selected state
-    data.state <- v2()
-    
-    # Care vector for 7 criterion
-    care.vec <- as.numeric(care.origin())
-    
-    # Scores of hospitals in the selected state
-    score <- apply(data.frame(data.state),1,calScore,care.vec = care.vec)
-    
-    # orders for hospitals
-    ord <- order(score,decreasing = TRUE)
-    
-    rank <- 1:nrow(data.state)
-    rankedtable <- cbind(rank,data.state[ord,c(2,3,4,5,6,8,9,29)])
+    rankedtable <- cbind(v3()$Rank[ord()],v3()[ord(),c(2,3,4,5,6,8,9,29)])
     rankedtable$payment <- apply(data.frame(rankedtable$payment),1,payswitch)
     colnames(rankedtable) <- c("Rank","Hospital Name","Address","City",
                                "State","ZIP","TEL","Type","Cost")
@@ -138,13 +139,15 @@ shinyServer(function(input, output){
     
   output$map <- renderLeaflet({
     content <- paste(sep = "<br/>",
-                     paste("<font size=1.8>","<font color=green>","<b>",v2()$Hospital.Name,"</b>"),
-                     paste("<font size=1>","<font color=black>",v2()$Address),
-                     paste(v2()$City, v2()$State, v2()$ZIP.Code, sep = " "),  
-                     paste("(",substr(v2()[ ,"Phone.Number"],1,3),") ",substr(v2()[ ,"Phone.Number"],4,6),"-",substr(v2()[ ,"Phone.Number"],7,10),sep = ""), 
-                     paste("<b>","Hospital Type: ","</b>",as.character(v2()$Hospital.Type)),  
-                     paste("<b>","Provides Emergency Services: ","</b>",as.character(v2()[ ,"Emergency.Services"])),
-                     paste("<b>","Overall Rating: ","</b>", as.character(v2()[ ,"Hospital.overall.rating"])))
+                     paste("<font size=1.8>","<font color=green>","<b>",v3()$Hospital.Name,"</b>"),
+                     paste("<font size=1>","<font color=black>",v3()$Address),
+                     paste(v3()$City, v3()$State, v3()$ZIP.Code, sep = " "),  
+                     paste("(",substr(v3()[ ,"Phone.Number"],1,3),") ",substr(v3()[ ,"Phone.Number"],4,6),"-",substr(v3()[ ,"Phone.Number"],7,10),sep = ""), 
+                     paste("<b>","Hospital Type: ","</b>",as.character(v3()$Hospital.Type)),  
+                     paste("<b>","Provides Emergency Services: ","</b>",as.character(v3()[ ,"Emergency.Services"])),
+                     paste("<b>","Overall Rating: ","</b>", as.character(v3()[ ,"Hospital.overall.rating"])),
+                     paste("<b>","Personalized Ranking: ","</b>",v3()$Rank))
+                    
    
     
    mapStates = map("state", fill = TRUE, plot = FALSE)
@@ -152,6 +155,22 @@ shinyServer(function(input, output){
      addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE) %>%
      addMarkers(v2()$lon, v2()$lat, popup = content, icon = hospIcons[v2()$TF], clusterOptions = markerClusterOptions())
   })
+  
+  output$read1<- renderText({"Greetings! If you are thinking of finding a hospitla you can go, you can just save your time and look at our app. Our group has created an app helping you to find the best hospitals around you based on your preference on 7 aspects of hospitals including mortality, safety of care, readmission rate, patient experience, effectiveness of care, timeliness of care and efficient use of medical imaging. With your choice, it will be so easy to find the one fits you the best."})
+  output$read2<- renderText({"User Manual: "})
+  output$read3<- renderText({"-> Step 1: Choose the State you live in or you need to go to. Simultaneously, you can also specify the type of hospital you may go to."})
+  output$read4<- renderText({"-> Step 2: Choose how much do your care about on the each of the seven aspects of a hospital."})
+  output$read5<- renderText({"-> Step 3: Check the Medicare Assessment table for the basic information of all hospitals, and the most importantly check the Personalized Ranking table to see which are the best ones for you."})
+  output$read6<- renderText({"-> Step 4: Click on the map to see the exact location of the hospital and gogogo!"})
+  
+  output$team1<- renderText({"This app is developed in Spring 2018 by: "})
+  output$team2<- renderText({"-> Guo, Xiaoxiao (email: xg2282@columbia.edu)"})
+  output$team3<- renderText({"-> He, Shan (email: sh3667@columbia.edu)"})
+  output$team4<- renderText({"-> Utomo, Michael (email: mu2251@columbia.edu)"})
+  output$team5<- renderText({"-> Wen, Lan (email: lw2773@columbia.edu)"})
+  output$team6<- renderText({"-> Yao, Jingtian (email: jy2867@columbia.edu)"})
+  output$team7<- renderText({"We are a group of Columbia University M.A. in Statistics students eager to make the world an easier place to live in, and we are taking a tiny step here by developing this app to help you find the best and most fitted hospitals. Good luck!"})
+  
  }
 )
   

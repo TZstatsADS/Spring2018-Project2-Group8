@@ -19,12 +19,14 @@ library(shinydashboard)
     dashboardHeader(title = "Hospitals For You"),
     skin = "green",
     dashboardSidebar(
+      width = 260,
       sidebarMenu(id="tabs",
-                  menuItem("Summary Statistics", tabName = "SummaryStat", icon = icon("area-chart")),
-                  menuItem("Hospital Recommendation", tabName = "HospitalRecommend", icon=icon("table")),
+                  menuItem("Welcome", tabName = "Welcome1", icon = icon("area-chart")),
                   menuItem("About",  icon = icon("file-text-o"),
                            menuSubItem("Read Me", tabName = "ReadMe", icon = icon("angle-right")),
-                           menuSubItem("About Team", tabName = "AboutTeam", icon = icon("angle-right")))),
+                           menuSubItem("About Team", tabName = "AboutTeam", icon = icon("angle-right"))),
+                  menuItem("Summary Statistics", tabName = "SummaryStat", icon = icon("area-chart")),
+                  menuItem("Hospital Recommendation", tabName = "HospitalRecommend", icon=icon("table"))),
       hr(),
       
       selectInput("state", label = "State", 
@@ -39,34 +41,43 @@ library(shinydashboard)
       # Criterion for hospitals
       radioButtons("care1",label = "Mortality",
                    choices = list("Very care"=3,"Care"=2,"Not care"=1),
-                   selected = 2),
-      
+                   selected = 2, inline = T),
       radioButtons("care2",label = "Safety of Care",
                    choices = list("Very care"=3,"Care"=2,"Not care"=1),
-                   selected = 2),
-      
+                   selected = 2, inline = T),
       radioButtons("care3",label = "Readmission rate",
                    choices = list("Very care"=3,"Care"=2,"Not care"=1),
-                   selected = 2),
-      
+                   selected = 2, inline = T),
       radioButtons("care4",label = "Patient Experience",
                    choices = list("Very care"=3,"Care"=2,"Not care"=1),
-                   selected = 2),
-      
+                   selected = 2, inline = T),
       radioButtons("care5",label = "Effectiveness of Care",
                    choices = list("Very care"=3,"Care"=2,"Not care"=1),
-                   selected = 2),
-      
+                   selected = 2, inline = T),
       radioButtons("care6",label = "Timeliness of Care",
                    choices = list("Very care"=3,"Care"=2,"Not care"=1),
-                   selected = 2),
-      
+                   selected = 2, inline = T),
       radioButtons("care7",label = "Efficient Use of Medical Imaging",
                    choices = list("Very care"=3,"Care"=2,"Not care"=1),
-                   selected = 2)
+                   selected = 2, inline = T),
+      submitButton("Submit",width='100%')
     ),
     dashboardBody(
-      fluidRow(
+      tabItems(
+        tabItem(tabName = "Welcome1",
+                mainPanel(
+                  img(src = "4.png",height=400,width=1100)
+                )),
+        
+        tabItem(tabName = "SummaryStat",
+                mainPanel(
+                  img(src = "1.png",height=400,width=1000),
+                  img(src = "2.png",height=400,width=1000),
+                  img(src = "3.png",height=400,width=1000)
+                )),  
+        
+        tabItem(tabName = "HospitalRecommend",
+        fluidRow(
         tabBox(width=12,
                tabPanel(title="Map",width = 12,solidHeader = T,leafletOutput("map"))
               ),
@@ -79,9 +90,31 @@ library(shinydashboard)
                     dataTableOutput("tablerank"),
                     tags$style(type="text/css", '#myTable tfoot {display:none;}')
                     ))
-    )
+    )),
+        tabItem(tabName = "ReadMe",
+            mainPanel(
+              textOutput("read1"),
+              hr(),
+              textOutput("read2"),
+              hr(),
+              textOutput("read3"),
+              textOutput("read4"),
+              textOutput("read5"),
+              textOutput("read6")
+            )),
+        tabItem(tabName = "AboutTeam",
+            mainPanel(
+              textOutput("team1"),
+              textOutput("team2"),
+              textOutput("team3"),
+              textOutput("team4"),
+              textOutput("team5"),
+              textOutput("team6"),
+              hr(),
+              textOutput("team7")
+            ))
         
       )
-    )
+    ))
     
   
