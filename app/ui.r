@@ -21,7 +21,7 @@ library(shinydashboard)
     dashboardSidebar(
       width = 260,
       sidebarMenu(id="tabs",
-                  menuItem("Welcome", tabName = "Welcome1", icon = icon("area-chart")),
+                  menuItem("Welcome", tabName = "Welcome1", icon = icon("book")),
                   menuItem("About",  icon = icon("file-text-o"),
                            menuSubItem("Read Me", tabName = "ReadMe", icon = icon("angle-right")),
                            menuSubItem("About Team", tabName = "AboutTeam", icon = icon("angle-right"))),

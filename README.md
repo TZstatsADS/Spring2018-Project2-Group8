@@ -16,7 +16,7 @@ Term: Spring 2018
 
 The 21st century is developing and changing rapidly. As a result, people are paying more attention to improve their quality of life as much as possible. Then, they realize how important keeping healthy is to maximize their happiness. Visiting a hospital is one of the most useful ways to ensure the health of a person. As a consequence, selecting the most appropriate one efficiently and effectively becomes really necessary and avoids unwanted troubles.
 
-If you are thinking of finding a hospitla you can go, you can just save your time and look at our app. Our group has created an app helping you to find the best hospitals around you based on your preference on 7 aspects of hospitals including mortality, safety of care, readmission rate, patient experience, effectiveness of care, timeliness of care and efficient use of medical imaging. With your choice, it will be so easy to find the one fits you the best.
+If you are thinking of finding hispitals you can go, you can just save your time and look at our app. Our group has created an app helping you to find the best hospitals around you based on your preferences on 7 aspects of hospitals including mortality, safety of care, readmission rate, patient experience, effectiveness of care, timeliness of care and efficient use of medical imaging. With your choice, it will be so easy to find the one fits you the best.
 
 ##### Find The Best One With Just One Click: https://spring-2018-project2-group8.shinyapps.io/group8/
 
@@ -38,7 +38,7 @@ You can take a first look of how our app looks like:
 
 ### **Contribution statement**: 
 
-Lan Wen and Jingtian Yao respectively found the dataset of hospital general imformation and payment dataset. All team members designed the content of this App. Xiaoxiao Guo and Jingtian Yao merged the data and cleaned the data. Shan He wrote the filter and table shiny UI and Server part. Lan Wen and Xiaoxiao Guo wrote the map Shiny UI and Server part. Jingtian Yao wrote the ranking UI and server part. Utomo Michael and Xiaoxiao Guo wrote the summary statistics Shiny UI and Server part. Shan He summary the folder. Utomo Michael gave the presentation. All team members contributed to the GitHub repository. All team members approve our work presented in our GitHub repository including this contribution statement.
+Lan Wen and Jingtian Yao respectively found the dataset of hospital general imformation and payment dataset. All team members participated in group discussions and designed the content of this App. Xiaoxiao Guo, Jingtian Yao and Lan Wen merged the data and cleaned the data. Shan He wrote the filter and table shiny UI and Server part. Lan Wen and Xiaoxiao Guo wrote the map Shiny UI and Server part. Jingtian Yao wrote the ranking UI and server part. Michael Utomo and Xiaoxiao Guo wrote the summary statistics Shiny UI and Server part. Shan He summarized the folder and deployed the app. Michael Utomo gave the presentation. All team members contributed to the GitHub repository. All team members approve our work presented in our GitHub repository including this contribution statement.
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
