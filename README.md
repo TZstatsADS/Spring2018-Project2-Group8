@@ -38,7 +38,7 @@ You can take a first look of how our app looks like:
 
 ### **Contribution statement**: 
 
-Lan Wen and Jingtian Yao respectively found the dataset of hospital general imformation and payment dataset. All team members designed the content of this App. Xiaoxiao Guo and Jingtian Yao merged the data and cleaned the data. Shan He wrote the filter and table shiny UI and Server part. Lan Wen and Xiaoxiao Guo wrote the map Shiny UI and Server part. Jingtian Yao wrote the ranking UI and server part. Shan He summary the folder. Utomo, Michael wrote the summary statistics part and gave the presentation.
+Lan Wen and Jingtian Yao respectively found the dataset of hospital general imformation and payment dataset. All team members designed the content of this App. Xiaoxiao Guo and Jingtian Yao merged the data and cleaned the data. Shan He wrote the filter and table shiny UI and Server part. Lan Wen and Xiaoxiao Guo wrote the map Shiny UI and Server part. Jingtian Yao wrote the ranking UI and server part. Shan He summary the folder. Utomo, Michael wrote the summary statistics part and gave the presentation. All team members contributed to the GitHub repository. All team members approve our work presented in our GitHub repository including this contribution statement.
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
