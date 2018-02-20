@@ -12,8 +12,6 @@ Part 1: Random Forest and Check the importance of Variables
 library(randomForest)
 library(ggplot2)
 library(rpart)
-#hospital <- hospital
-load("Hospital.RData")
 set.seed(021818) #Create a random seed
 test.i <- sample(1:nrow(hospital), .3*nrow(hospital), replace=FALSE) #Test set contains 30% of the total data
 test.data <- hospital[test.i,]
@@ -33,8 +31,8 @@ for(i in 1:nrow(rf_tune)){
                                         Patient.experience.national.comparison + 
                                         Effectiveness.of.care.national.comparison + 
                                         Timeliness.of.care.national.comparison + 
-                                        Efficient.use.of.medical.imaging.national.comparison + 
-                                       payment, data=train.data, na.action = na.omit,
+                                        Efficient.use.of.medical.imaging.national.comparison 
+                               , data=train.data, na.action = na.omit,
                                 mtry=rf_tune$mtry[i],
                                 ntree=rf_tune$ntree[i]) #mtry should be ~square root the number of predictors for classification and p/3 for regression
         rf.preds <- predict(our.rf, test.data)

@@ -59,22 +59,24 @@ hospital$payment <- score
 # Read in latitude and longitude data processed by Python codes
 latlng <- read.csv("../output/laglng_transform.csv")
 lat <- latlng[,1]
-log <- latlng[,2]
+lon <- latlng[,2]
 
 # Bind some columns and factor the type of hospital for subsequent map marker use
-hospital <- cbind(hospital, Mortality, Safety, Readmission, PatientExp, Effectiveness, Timeliness, MedicalImagingEff, lat, log)
+hospital <- cbind(hospital, Mortality, Safety, Readmission, PatientExp, Effectiveness, Timeliness, MedicalImagingEff, lat, lon)
 hospital <- mutate(hospital, TF = factor(hospital$Hospital.Type, labels = c("emergency","children","critical")))
 
 save(hospital, file="../output/hospital.RData")
 ```
 
-## Delete latitude/longitude NA rows as it cannot be visualized on the map
+## Delete latitude/longitude NA rows and error rows as it cannot be visualized on the map
 ```{r}
-hos <- hospital[is.na(hospital$lat) == F & is.na(hospital$log) == F, ]
+hos <- hospital[is.na(hospital$lat) == F & is.na(hospital$lon) == F, ]
+index <- hos$Phone.Number %in% c("2512753191", "2562339292", "9286747001", "5012022000", "6619495000", "3232262800", "5302796111", "9708249411", "8602245011", "8138987451", "3527518000", "4046864411", "4784723100", "2294247100", "3095434431", "2198665141", "5153862114", "6414374111", "7855622311", "7857382266", "6208854264", "6066389451", "2257639900", "3186496111", "2076955200", "9784662000", "5086930410", "9068848000", "5177884800", "2318323271", "3207488200", "5072388101", "6513455955", "5078312400", "3205891313", "6017863401", "5737296626", "6603354700", "4179347000", "6362398000", "4066382626", "4063533100", "4027293351", "4022452428", "4028874151", "3084232204", "4028522231", "4027593167", "4025824245", "3089282151", "4023585700", "3088362228", "4027483393", "4025723000", "3083245651", "4022283344", "4029932283", "4023853083", "4023762525", "4027465600", "4028793281", "4022692011", "3087842261", "8563631000", "5758942111", "5757697155", "6077636000", "3154931000", "5859612000", "7163264921", "6077768500", "8287654201", "8288835302", "8287654201", "7012658461", "9375213900", "7404255101", "4052826700", "5802235400", "9187862243", "9182278601", "5806541050", "4056286000", "5418817000", "7157488100", "3044698600", "4343928811", "4344473151", "8028852151", "4353872411", "2543863151", "936933841", "8648784791", "8643012000", " 8148378585","2186857300","7877829999")
+hos <- hos[index == F,]
 save(hos, file="../output/hos.RData")
 ```
 
-## Following chunks that are greyed are our preliminary trial on transforming addresses to longtitude and latitude. We found that there are a considerable amount of NAs, therefore we write some python codes to improve this transformation process.
+## Following chunks that are greyed are our preliminary trials on transforming addresses to longtitude and latitude. We found that there are a considerable amount of NAs, therefore we write some python codes to improve this transformation process.
 ```{geo_codes, message=F}
 # Transfer address into longtitude and latitude
 # First 2500 data

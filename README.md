@@ -30,7 +30,7 @@ If you are thinking of finding a hospitla you can go, you can just save your tim
 
 --- Step 4: Click on the map to see the exact location of the hospital and gogogo!
 
-We can take a first look of how our app looks like:
+You can take a first look of how our app looks like:
 
 ![screenshot](doc/Overlook.jpg)
 

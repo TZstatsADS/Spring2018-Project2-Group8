@@ -80,18 +80,30 @@ shinyServer(function(input, output){
   
   v1<-reactive({
     if (state() == "Select") {v1<-hos} 
-      else {
-        selectstate<-state()
-        v1<- hos %>% filter(State == state())}})  
+    else {
+      selectstate<-state()
+      v1<- hos %>% filter(State == state())}})  
   
   v2 <- reactive({
     if (type() == "Select") {v2 <- v1()}
-      else{
-        selecttype <- type()
-        v2 <- v1() %>% filter(Hospital.Type == type())}})
+    else{
+      selecttype <- type()
+      v2 <- v1() %>% filter(Hospital.Type == type())}})
   
   care.origin <- reactive(care.origin <- c(care1(),care2(),care3(),
                                            care4(),care5(),care6(),care7()))
+  # Dataset for the selected state
+  data.state <- reactive(data.state <- v2())
+  
+  # Care vector for 7 criterion
+  care.vec <- reactive(as.numeric(care.origin()))
+  
+  # Scores of hospitals in the selected state
+  score <- reactive(apply(data.frame(data.state()),1,calScore,care.vec = care.vec()))
+  
+  # orders for hospitals
+  ord <- reactive(order(score(),decreasing = TRUE))
+  
   
   # Care vector for 7 criterion
   care.vec <- reactive(as.numeric(care.origin()))
@@ -108,7 +120,7 @@ shinyServer(function(input, output){
   v3 <- reactive({v3 <- cbind(v2(),Order = ord(),Rank = rk())})
   
   # Outputs
-    
+  
   output$tableinfo = renderDataTable(
       {
         data1 <- v2()
@@ -118,11 +130,13 @@ shinyServer(function(input, output){
        colnames(infotable) <- c("Hospital Name","Address","City","Type", "Mortality", "Safety", "Readmission",
                                 "Patient Experience", "Effectiveness", "Overall Rating")
         infotable
+
     },options = list(orderClasses = TRUE, iDisplayLength = 5, lengthMenu = c(5, 10, 15, 20)))
   
   
   output$tablerank = renderDataTable({
     rankedtable <- cbind(v3()$Rank[ord()],v3()[ord(),c(2,3,4,5,6,8,9,29)])
+
     rankedtable$payment <- apply(data.frame(rankedtable$payment),1,payswitch)
     colnames(rankedtable) <- c("Rank","Hospital Name","Address","City",
                                "State","ZIP","TEL","Type","Cost")
@@ -130,14 +144,15 @@ shinyServer(function(input, output){
     rankedtable
   },options = list(orderClasses = TRUE, iDisplayLength = 5, lengthMenu = c(5, 10, 15, 20)))
   
-
+  
   hospIcons <- iconList(emergency = makeIcon("emergency_icon.png", iconWidth = 25, iconHeight =30),
                         critical = makeIcon("critical_icon.png", iconWidth = 25, iconHeight =30),
                         children = makeIcon("children_icon.png", iconWidth = 20, iconHeight =30))
   
-      
-    
+  
+  
   output$map <- renderLeaflet({
+    v3 <- reactive(cbind(v2(),ord()))
     content <- paste(sep = "<br/>",
                      paste("<font size=1.8>","<font color=green>","<b>",v3()$Hospital.Name,"</b>"),
                      paste("<font size=1>","<font color=black>",v3()$Address),
@@ -145,15 +160,15 @@ shinyServer(function(input, output){
                      paste("(",substr(v3()[ ,"Phone.Number"],1,3),") ",substr(v3()[ ,"Phone.Number"],4,6),"-",substr(v3()[ ,"Phone.Number"],7,10),sep = ""), 
                      paste("<b>","Hospital Type: ","</b>",as.character(v3()$Hospital.Type)),  
                      paste("<b>","Provides Emergency Services: ","</b>",as.character(v3()[ ,"Emergency.Services"])),
+
                      paste("<b>","Overall Rating: ","</b>", as.character(v3()[ ,"Hospital.overall.rating"])),
                      paste("<b>","Personalized Ranking: ","</b>",v3()$Rank))
-                    
-   
     
-   mapStates = map("state", fill = TRUE, plot = FALSE)
-   leaflet(data = mapStates) %>% addTiles() %>%
-     addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE) %>%
-     addMarkers(v2()$lon, v2()$lat, popup = content, icon = hospIcons[v2()$TF], clusterOptions = markerClusterOptions())
+    
+    mapStates = map("state", fill = TRUE, plot = FALSE)
+    leaflet(data = mapStates) %>% addTiles() %>%
+      addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE) %>%
+      addMarkers(v2()$lon, v2()$lat, popup = content, icon = hospIcons[v2()$TF], clusterOptions = markerClusterOptions())
   })
   
   output$read1<- renderText({"Greetings! If you are thinking of finding a hospitla you can go, you can just save your time and look at our app. Our group has created an app helping you to find the best hospitals around you based on your preference on 7 aspects of hospitals including mortality, safety of care, readmission rate, patient experience, effectiveness of care, timeliness of care and efficient use of medical imaging. With your choice, it will be so easy to find the one fits you the best."})
@@ -171,6 +186,5 @@ shinyServer(function(input, output){
   output$team6<- renderText({"-> Yao, Jingtian (email: jy2867@columbia.edu)"})
   output$team7<- renderText({"We are a group of Columbia University M.A. in Statistics students eager to make the world an easier place to live in, and we are taking a tiny step here by developing this app to help you find the best and most fitted hospitals. Good luck!"})
   
- }
-)
-  
+ })
+
