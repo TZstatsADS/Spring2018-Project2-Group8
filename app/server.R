@@ -152,7 +152,6 @@ shinyServer(function(input, output){
   
   
   output$map <- renderLeaflet({
-    v3 <- reactive(cbind(v2(),ord()))
     content <- paste(sep = "<br/>",
                      paste("<font size=1.8>","<font color=green>","<b>",v3()$Hospital.Name,"</b>"),
                      paste("<font size=1>","<font color=black>",v3()$Address),
