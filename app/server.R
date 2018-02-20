@@ -192,7 +192,7 @@ shinyServer(function(input, output){
   output$VI <- renderPlotly({
     
     b <- ggplot(importance.df, aes(x=Variables, y=MeanDecreaseGini)) + 
-      geom_point() + 
+      geom_point(color = c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00"), size = 5) + 
       theme(axis.text.x = element_text(angle = 40, hjust = 1))+
       ggtitle('Variable Importance')+
       ylab("Mean Drop Gini")+
@@ -206,7 +206,7 @@ shinyServer(function(input, output){
   output$NHS <- renderPlotly({
     
     c <- ggplot(df, aes(x=State, y = Freq))+
-      geom_bar(stat="identity", color="black", fill="grey")+
+      geom_bar(stat="identity", color="black", fill = "#009E73", alpha = 0.5)+
       labs(title= "Number of Hospitals by State", x="State", y="Frequency")+
       theme_classic()+
       theme(axis.text.x = element_text(angle=90, hjust=1, size = 8))+
@@ -220,7 +220,7 @@ shinyServer(function(input, output){
   output$HQS <- renderPlotly({
     
     d <- ggplot(hospital_ratings.df, aes(x=State, y=HospitalRating))+
-      geom_bar(stat="identity", color="black", fill="grey")+ 
+      geom_bar(stat="identity", color="black", alpha = 0.7, fill = "#009E73")+ 
       labs(title="Hospital Quality by State", x="State", y="Quality - OverallRating (1-5)")+
       theme_classic()+
       theme(axis.text.x=element_text(angle=90, hjust=1, size = 8))+
