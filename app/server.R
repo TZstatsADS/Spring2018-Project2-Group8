@@ -248,7 +248,7 @@ shinyServer(function(input, output){
       theme(plot.title=element_text(hjust=0.5))+
       ylim(0,5)+
       theme(plot.margin = unit(c(1,1,1,1), "cm"))
-    ggplotly(d) %>% layout(height = 700, width = 1200)
+    ggplotly(d) %>% layout(height = 700, width = 1000)
     
   }
   
