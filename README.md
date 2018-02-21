@@ -3,7 +3,7 @@
 ## Project Title: Hospital for You
 Term: Spring 2018
 
-### Team #8
+### **Team #8**
 + Team Members:
 	+ team member: Guo, Xiaoxiao (email: xg2282@columbia.edu)
 	+ team member: He, Shan (email: sh3667@columbia.edu)
@@ -40,6 +40,10 @@ You can take a first look of how our app looks like:
 
 Lan Wen and Jingtian Yao respectively found the dataset of hospital general information and payment dataset. All team members participated in group discussions and designed the content of this App. Xiaoxiao Guo, Jingtian Yao and Lan Wen merged the data and cleaned the data in the Excel. Shan He wrote the filter and table shiny UI and Server part. Lan Wen and Xiaoxiao Guo wrote the map Shiny UI and Server part. Jingtian Yao wrote the ranking UI and server part. Shan He summarized the folder and deployed the app. In addition, Michael Utomo built the Random Forest model and the code for the summary statistics and EDA, and Xiaoxiao edited some of the summary statistics (adding colors in the EDA and edited the format).  Michael Utomo helped to resolve some of the issues that other team members have during the meetings, like issues on the Google Maps and issues of the ranking. Michael Utomo was also responsible for the About Me page and also the logos. All team members contributed to the GitHub repository. All team members approve our work presented in our GitHub repository including this contribution statement.
 
+### **Reference**:
+
+Some design ideas were inspired by the project 2 of Spring Semester 2017 Group 10. Author: Tongyue Liu, Yue Jin, Yijia Pan, Jia Hui Tan and Qingyuan Zhang. Columbia University, 2017.
+
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
 ```
@@ -50,6 +54,6 @@ proj/
 ├── doc/
 └── output/
 ```
-
+  
 Please see each subfolder for a README file.
 
