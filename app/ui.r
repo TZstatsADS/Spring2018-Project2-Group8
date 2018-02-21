@@ -133,7 +133,7 @@ library(shinydashboard)
               textOutput("team5"),
               textOutput("team6"),
               hr(),
-              img(src = "Group8.png",height=200,width=400)
+              textOutput("team7")
             ))
         
       )

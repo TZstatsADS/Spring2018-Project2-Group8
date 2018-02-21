@@ -200,7 +200,8 @@ shinyServer(function(input, output){
   output$team4<- renderText({"-> Utomo, Michael (email: mu2251@columbia.edu)"})
   output$team5<- renderText({"-> Wen, Lan (email: lw2773@columbia.edu)"})
   output$team6<- renderText({"-> Yao, Jingtian (email: jy2867@columbia.edu)"})
-
+  output$team7<- renderText({"We are a group of Columbia University M.A. in Statistics students eager to make the world an easier place to live in, and we are taking a tiny step here by developing this app to help you find the best and most fitted hospitals. Good luck!"})
+  
   
   
   output$VI <- renderPlotly({
