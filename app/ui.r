@@ -64,7 +64,6 @@ library(shinydashboard)
       submitButton("Submit",width='100%')
     ),
     dashboardBody(
-      skin = "white",
       tabItems(
         tabItem(tabName = "Welcome1",
                 mainPanel(
@@ -134,7 +133,7 @@ library(shinydashboard)
               textOutput("team5"),
               textOutput("team6"),
               hr(),
-              textOutput("team7")
+              img(src = "Group8.png",height=400,width=800)
             ))
         
       )

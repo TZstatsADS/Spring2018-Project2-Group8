@@ -200,7 +200,7 @@ shinyServer(function(input, output){
   output$team4<- renderText({"-> Utomo, Michael (email: mu2251@columbia.edu)"})
   output$team5<- renderText({"-> Wen, Lan (email: lw2773@columbia.edu)"})
   output$team6<- renderText({"-> Yao, Jingtian (email: jy2867@columbia.edu)"})
-  output$team7<- renderText({"We are a group of Columbia University M.A. in Statistics students eager to make the world an easier place to live in, and we are taking a tiny step here by developing this app to help you find the best and most fitted hospitals. Good luck!"})
+
   
   
   output$VI <- renderPlotly({
@@ -228,7 +228,7 @@ shinyServer(function(input, output){
       labs(title= "Number of Hospitals by State", x="State", y=NULL)+
       theme_classic()+
       theme(axis.text.x = element_text(angle=90, size = 8))+
-      theme(plot.title= element_text(hjust=0.5))+
+      theme(plot.title= element_text(hjust=0.5, vjust=1))+
       scale_y_continuous(expand = c(0,0))+
       theme(plot.margin = unit(c(1,1,1,1), "cm"))
     ggplotly(c) %>% layout(height = 700, width = 1000)
