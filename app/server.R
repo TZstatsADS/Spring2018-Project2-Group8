@@ -191,28 +191,35 @@ shinyServer(function(input, output){
   
   output$VI <- renderPlotly({
     
-    b <- ggplot(importance.df, aes(x=Variables, y=MeanDecreaseGini)) + 
-      geom_point(color = c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00"), size = 5) + 
-      theme(axis.text.x = element_text(angle = 40, hjust = 1))+
-      ggtitle('Variable Importance')+
-      ylab("Mean Drop Gini")+
-      theme(plot.title=element_text(hjust=0.5))
-    ggplotly(b) %>% layout(height = 700, width = 1200)
+    b <- ggplot(importance.df, aes(x=Variables, y=MeanDecreaseGini)) +   
+         geom_point(size = importance.df$MeanDecreaseGini/12,  
+                    color = c("#999999", "#E69F00", "#56B4E9", "#009E73",  
+                              "#F0E442", "#0072B2", "#D55E00"),  
+                    alpha = 0.6) +
+         theme(axis.text.x = element_text(angle = 40))+
+         ggtitle('Variable Importance')+
+         ylab("Mean Drop Gini")+
+         theme(plot.title=element_text(hjust=0.5))
+    
+    ggplotly(b) %>% layout(height = 700, width = 1000)
     
   }
   
   )
   
   output$NHS <- renderPlotly({
-    
+  
     c <- ggplot(df, aes(x=State, y = Freq))+
-      geom_bar(stat="identity", color="black", fill = "#009E73", alpha = 0.5)+
-      labs(title= "Number of Hospitals by State", x="State", y="Frequency")+
+      geom_bar(stat="identity", aes(fill = df$Freq))+
+      labs(title= "Number of Hospitals by State", x="State", y=NULL)+
       theme_classic()+
-      theme(axis.text.x = element_text(angle=90, hjust=1, size = 8))+
-      theme(plot.title= element_text(hjust=0.5))
-    ggplotly(c) %>% layout(height = 700, width = 1200)
+      theme(axis.text.x = element_text(angle=90, size = 8))+
+      theme(plot.title= element_text(hjust=0.5))+
+      scale_y_continuous(expand = c(0,0))+
+      theme(plot.margin = unit(c(1,1,1,1), "cm"))
+    ggplotly(c) %>% layout(height = 700, width = 1000)
     
+      c + scale_fill_continuous(name="Frequency")
   }
   
   )
@@ -220,12 +227,13 @@ shinyServer(function(input, output){
   output$HQS <- renderPlotly({
     
     d <- ggplot(hospital_ratings.df, aes(x=State, y=HospitalRating))+
-      geom_bar(stat="identity", color="black", alpha = 0.7, fill = "#009E73")+ 
+      geom_bar(stat="identity", alpha = 0.7, fill = "#009E73") +
       labs(title="Hospital Quality by State", x="State", y="Quality - OverallRating (1-5)")+
       theme_classic()+
       theme(axis.text.x=element_text(angle=90, hjust=1, size = 8))+
       theme(plot.title=element_text(hjust=0.5))+
-      ylim(0,5)
+      ylim(0,5)+
+      theme(plot.margin = unit(c(1,1,1,1), "cm"))
     ggplotly(d) %>% layout(height = 700, width = 1200)
     
   }

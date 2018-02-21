@@ -96,7 +96,8 @@ ggplot(df, aes(x=State, y = Freq))+
   labs(title= "Number of Hospitals by State\n", x="\nState", y="Frequency\n")+
   theme_classic()+
   theme(axis.text.x = element_text(angle=90, hjust=1, size = 8))+
-  theme(plot.title= element_text(hjust=0.5))
+  theme(plot.title= element_text(hjust=0.5))+
+  scale_y_continuous(expand = c(0,0))
 ```
 
 2.) Average quality of Medicare hospitals by State 

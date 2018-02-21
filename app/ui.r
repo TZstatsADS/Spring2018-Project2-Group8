@@ -63,10 +63,11 @@ library(shinydashboard)
       submitButton("Submit",width='100%')
     ),
     dashboardBody(
+      skin = "white",
       tabItems(
         tabItem(tabName = "Welcome1",
                 mainPanel(
-                  img(src = "4.png",height=400,width=1100)
+                  img(src = "logo.png",height=800,width=1000)
                 )),
         
         tabItem(tabName = "SummaryStat",
