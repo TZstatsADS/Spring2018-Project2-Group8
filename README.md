@@ -41,8 +41,19 @@ You can take a first look of how our app looks like:
 All team members participated in group discussions and designed the content of this App. Lan Wen and Jingtian Yao respectively found the dataset of hospital general information and payment dataset. Xiaoxiao Guo, Jingtian Yao and Lan Wen merged the data and cleaned the data in the Excel. Shan He wrote the filter and table shiny UI and Server part. Lan Wen and Xiaoxiao Guo wrote the map Shiny UI and Server part. Jingtian Yao wrote the ranking UI and Server part. Michael Utomo built the Random Forest model and the code for the summary statistics and EDA, and Xiaoxiao Guo combined them into shiny UI and Server part. Shan He summarized the folder and deployed the app. In addition, Shan He and Lan Wen revised the Shiny UI framework, Michael Utomo was responsible for the About Me page and the logos. Michael Utomo also helped to resolve some of the issues that other team members have during the meetings, like issues on the Google Maps and issues of the ranking. All team members contributed to the GitHub repository. All team members approve our work presented in our GitHub repository including this contribution statement.
 
 ### **Reference**:
+1. Some design ideas were inspired by the project 2 of Spring Semester 2017 Group 10. Author: Tongyue Liu, Yue Jin, Yijia Pan, Jia Hui Tan and Qingyuan Zhang. Columbia University, 2017.
+2. Tutorial 2.Rmd, Prof. Ying Liu, Chengliang Tang
+3. Shiny_tutorial.Rmd, Chengliang Tang
+4. https://github.com/TZstatsADS/Fall2016-Proj2-grp14
+5. https://www.researchgate.net/profile/Andy_Liaw/publication/228451484_Classification_and_Regression_by_RandomForest/links/53fb24cc0cf20a45497047ab/Classification-and-Regression-by-RandomForest.pdf
+6. https://discuss.analyticsvidhya.com/t/decision-tree-gini-impurity-purity/37650
+7. https://stackoverflow.com/questions/22332911/plot-frequency-table-in-r
+8. https://www.kdnuggets.com/2017/10/random-forests-explained.html
+9. https://www.datasciencecentral.com/profiles/blogs/random-forests-explained-intuitively
+10. https://www.analyticsvidhya.com/blog/2014/06/introduction-random-forest-simplified/
+11. https://www.udemy.com/data-science-and-machine-learning-bootcamp-with-r/learn/v4/t/lecture/5412704?start=0
 
-Some design ideas were inspired by the project 2 of Spring Semester 2017 Group 10. Author: Tongyue Liu, Yue Jin, Yijia Pan, Jia Hui Tan and Qingyuan Zhang. Columbia University, 2017.
+
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
